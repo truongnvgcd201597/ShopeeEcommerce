@@ -1,6 +1,6 @@
 import React from 'react'
 import Footer from 'src/components/Footer'
-import Header from 'src/components/Header'
+import NavbarHeader from 'src/components/NavbarHeader'
 
 interface LayoutProps {
   children?: React.ReactNode
@@ -8,7 +8,7 @@ interface LayoutProps {
 export default function RegisterLayout({ children }: LayoutProps) {
   return (
     <>
-      <Header />
+      <NavbarHeader />
       {children}
       <Footer />
     </>

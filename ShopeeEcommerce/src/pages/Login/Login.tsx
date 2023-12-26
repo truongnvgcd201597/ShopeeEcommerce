@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { Link, useNavigate } from 'react-router-dom'
-import { loginAccount } from 'src/apis/auth.api'
+import authApi from 'src/apis/auth.api'
 import Button from 'src/components/Button/Button'
 import Input from 'src/components/Input'
 import { AppContext } from 'src/contexts/app.context'
@@ -12,8 +12,8 @@ import { ErrorResponseApi } from 'src/types/utils.types'
 import { schema, LoginSchema } from 'src/utils/rules'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
-type FormData = Omit<LoginSchema, 'confirm_password'>
-const loginSchema = schema.omit(['confirm_password'])
+type FormData = Pick<LoginSchema, 'email' | 'password'>
+const loginSchema = schema.pick(['email', 'password'])
 
 export default function Login() {
   const { setProfile, setIsAuthenticated } = useContext(AppContext)
@@ -60,7 +60,7 @@ export default function Login() {
   })
 
   const loginAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => loginAccount(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.login(body)
   })
 
   return (
@@ -73,7 +73,6 @@ export default function Login() {
               <div className='mt-8'>
                 <Input
                   type='email'
-                  placeHolder='Email'
                   errorMessage={errors.email?.message}
                   register={register}
                   name='email'
@@ -82,7 +81,6 @@ export default function Login() {
               </div>
               <Input
                 type='password'
-                placeHolder='Password'
                 errorMessage={errors.password?.message}
                 register={register}
                 name='password'

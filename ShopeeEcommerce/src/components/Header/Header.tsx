@@ -1,17 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom'
 import Pophover from '../Pophover'
 import { useMutation } from 'react-query'
-import { logoutAccount } from 'src/apis/auth.api'
 import { useContext } from 'react'
 import { AppContext } from 'src/contexts/app.context'
 import path from 'src/constants/path'
+import authApi from 'src/apis/auth.api'
 
 export default function Header() {
   const navigate = useNavigate()
   const { isAuthenticated, setIsAuthenticated, profile } = useContext(AppContext)
 
   const logoutMutation = useMutation({
-    mutationFn: logoutAccount,
+    mutationFn: authApi.logout,
     onSuccess: () => {
       setIsAuthenticated(false)
       navigate('/login')

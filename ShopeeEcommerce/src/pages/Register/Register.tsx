@@ -4,7 +4,6 @@ import Input from 'src/components/Input'
 import { schema, Schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { registerAccount } from 'src/apis/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.types'
@@ -12,8 +11,10 @@ import { useContext } from 'react'
 import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/components/Button/Button'
 import path from 'src/constants/path'
+import authApi from 'src/apis/auth.api'
 
-type FormData = Schema
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
+const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
 
 export default function Register() {
   const { setIsAuthenticated } = useContext(AppContext)
@@ -29,7 +30,7 @@ export default function Register() {
       password: '',
       confirm_password: ''
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(registerSchema)
   })
 
   const onSubmit = handleSubmit((data) => {
@@ -60,7 +61,7 @@ export default function Register() {
   })
 
   const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
   })
 
   return (
@@ -76,7 +77,7 @@ export default function Register() {
                 type='email'
                 className='mt-8'
                 errorMessage={errors.email?.message}
-                placeHolder='Email/Phone Number/Username'
+                placeholder='Email/Phone Number/Username'
               />
               <Input
                 name='password'
@@ -84,7 +85,7 @@ export default function Register() {
                 type='password'
                 className='mt-2'
                 errorMessage={errors.password?.message}
-                placeHolder='Password'
+                placeholder='Password'
                 autoComplete='on'
               />
 
@@ -94,7 +95,7 @@ export default function Register() {
                 type='password'
                 className='mt-2'
                 errorMessage={errors.confirm_password?.message}
-                placeHolder='Confirm Password'
+                placeholder='Confirm Password'
                 autoComplete='on'
               />
               <div className='mt-3'>

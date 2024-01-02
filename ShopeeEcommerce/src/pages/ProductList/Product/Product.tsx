@@ -11,7 +11,6 @@ export default function Product({ product }: Product) {
   const { image, price, price_before_discount, name, sold, rating } = product
   return (
     <Link to={`${path.home}${product._id}`}>
-      {' '}
       <div className='bg-white shadow rounded-sm hover:translate-y-[-0.04rem] hover:shadow-md duration-100 transition-transform overflow-hidden'>
         <div className='w-full pt-[100%] relative'>
           <img src={image} alt='' className='absolute top-0 left-0 bg-white w-full h-full object-cover' />

@@ -24,6 +24,7 @@
     "classnames": "^2.3.2",
     "dompurify": "^3.0.6",
     "framer-motion": "^10.16.16",
+    "immer": "^10.0.3",
     "init": "^0.1.2",
     "lodash": "^4.17.21",
     "prettier-plugin-tailwindcss": "^0.5.9",

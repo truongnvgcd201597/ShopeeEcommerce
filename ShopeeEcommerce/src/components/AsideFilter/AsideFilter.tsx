@@ -1,7 +1,6 @@
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
 import path from 'src/constants/path'
-import { QueryConfig } from '../../pages/ProductList/ProductList'
 import { Category } from 'src/types/category.types'
 import classNames from 'classnames'
 import InputNumber from 'src/components/InputNumber'
@@ -11,6 +10,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { NoUndefined } from 'src/types/utils.types'
 import RatingStars from 'src/components/RatingStars'
 import { omit } from 'lodash'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
+import InputVerTwo from '../InputVersusTwo'
 
 interface AsideFilterProps {
   queryConfig: QueryConfig
@@ -136,43 +137,30 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
         <div>Price range</div>
         <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
-            <Controller
+            <InputVerTwo
               control={control}
               name='price_min'
-              render={({ field }) => (
-                <InputNumber
-                  type='text'
-                  className='grow'
-                  placeholder='₫ FROM'
-                  classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
-                  classNameError='hidden'
-                  {...field}
-                  onChange={(event) => {
-                    field.onChange(event)
-                    trigger('price_max')
-                  }}
-                />
-              )}
+              type='number'
+              className='grow'
+              placeholder='₫ TO'
+              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+              classNameError='hidden'
+              onChange={() => {
+                trigger('price_min')
+              }}
             />
-
             <div className='mx-2 mt-2 shrink-0'>-</div>
-            <Controller
+            <InputVerTwo
               control={control}
               name='price_max'
-              render={({ field }) => (
-                <InputNumber
-                  type='text'
-                  className='grow'
-                  placeholder='₫ TO'
-                  classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
-                  classNameError='hidden'
-                  {...field}
-                  onChange={(event) => {
-                    field.onChange(event)
-                    trigger('price_min')
-                  }}
-                />
-              )}
+              type='number'
+              className='grow'
+              placeholder='₫ TO'
+              classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+              classNameError='hidden'
+              onChange={() => {
+                trigger('price_min')
+              }}
             />
           </div>
           <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm text-center'>

@@ -5,11 +5,13 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { AppProvider } from './contexts/app.context.tsx'
+import ErrorBoundary from './pages/ErrorBoundary/ErrorBoundary.tsx'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false // default: true
+      refetchOnWindowFocus: false, // default: true,
+      retry: false
     }
   }
 })
@@ -19,7 +21,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AppProvider>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </AppProvider>
       </QueryClientProvider>
     </BrowserRouter>

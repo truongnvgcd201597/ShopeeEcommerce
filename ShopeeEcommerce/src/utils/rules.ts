@@ -64,6 +64,15 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
+const handleConfirmPasswordYup = (refString: string) => {
+  return yup
+    .string()
+    .required('Enter your confirm password')
+    .min(6, 'Minimum length is 5')
+    .max(160, 'Maximum length is 160')
+    .oneOf([yup.ref(refString)], 'Confirm password does not match')
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -76,12 +85,7 @@ export const schema = yup.object({
     .required('Enter your password')
     .min(6, 'Minimum length is 6')
     .max(160, 'Maximum length is 160'),
-  confirm_password: yup
-    .string()
-    .required('Enter your confirm password')
-    .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .max(160, 'Độ dài từ 6 - 160 ký tự')
-    .oneOf([yup.ref('password')], 'Confirm password does not match'),
+  confirm_password: handleConfirmPasswordYup('password'),
   price_min: yup.string().test({
     name: 'price-not-allowed',
     message: 'Giá không phù hợp',
@@ -94,6 +98,19 @@ export const schema = yup.object({
   }),
   name: yup.string().trim().required('Product name is required')
 })
+
+export const userSchema = yup.object({
+  name: yup.string().max(160, 'Maximum length is 160 characters'),
+  phone: yup.string().max(20, 'Maximum length is 20 characters'),
+  address: yup.string().max(160, 'Maximum length is 160 characters'),
+  avatar: yup.string().max(1000, 'Maximum length is 1000 characters'),
+  date_of_birth: yup.date().max(new Date(), 'Please select a date in the past'),
+  password: schema.fields['password'],
+  new_password: schema.fields['password'],
+  confirm_password: handleConfirmPasswordYup('new_password')
+})
+
+export type UserSchema = yup.InferType<typeof userSchema>
 
 const loginSchema = schema.omit(['confirm_password'])
 

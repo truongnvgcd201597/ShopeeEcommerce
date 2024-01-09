@@ -4,9 +4,13 @@ export const saveAccessTokenToLocalStorage = (accessToken: string) => {
   localStorage.setItem('accessToken', accessToken)
 }
 
+export const localStorageEventTarget = new EventTarget()
+
 export const clearLocalStorage = () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('profile')
+  const clearLocalStorageEvent = new Event('clearLocalStorage')
+  localStorageEventTarget.dispatchEvent(clearLocalStorageEvent)
 }
 
 export const getAccessTokenFromLocalStorage = () => {

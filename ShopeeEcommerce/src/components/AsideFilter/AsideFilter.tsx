@@ -3,8 +3,7 @@ import Button from 'src/components/Button'
 import path from 'src/constants/path'
 import { Category } from 'src/types/category.types'
 import classNames from 'classnames'
-import InputNumber from 'src/components/InputNumber'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NoUndefined } from 'src/types/utils.types'
@@ -146,7 +145,7 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
               classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               classNameError='hidden'
               onChange={() => {
-                trigger('price_min')
+                trigger('price_max')
               }}
             />
             <div className='mx-2 mt-2 shrink-0'>-</div>
@@ -159,7 +158,7 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
               classNameInput='p-1 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               classNameError='hidden'
               onChange={() => {
-                trigger('price_min')
+                trigger('price_max')
               }}
             />
           </div>

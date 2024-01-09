@@ -2,15 +2,16 @@ import { Link, useNavigate } from 'react-router-dom'
 import Pophover from '../Pophover'
 import { useContext } from 'react'
 import { AppContext } from 'src/contexts/app.context'
-import { QueryClient, useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import authApi from 'src/apis/auth.api'
 import { purchaseStatus } from 'src/constants/purchases'
 import path from 'src/constants/path'
+import { getAvatarURL } from 'src/utils/utils'
 
 export default function NavHeader() {
   const { isAuthenticated, setIsAuthenticated, profile } = useContext(AppContext)
   const navigate = useNavigate()
-  const queryClient = new QueryClient()
+  const queryClient = useQueryClient()
 
   const logoutMutation = useMutation({
     mutationFn: authApi.logout,
@@ -87,11 +88,7 @@ export default function NavHeader() {
           }
         >
           <div className='w-6 h-6 mr-2 flex-shrink-0'>
-            <img
-              src='https://cf.shopee.vn/file/d04ea22afab6e6d250a370d7ccc2e675_tn'
-              alt='avatar'
-              className='w-full h-full object-cover rounded-full'
-            />
+            <img src={getAvatarURL(profile?.avatar)} alt='avatar' className='w-full h-full object-cover rounded-full' />
           </div>
           <div>{profile?.email}</div>
         </Pophover>

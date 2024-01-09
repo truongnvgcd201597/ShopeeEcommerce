@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios'
 import httpStatusCode from 'src/constants/constant.httpStatusCode'
-import { string } from 'yup'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -38,4 +37,8 @@ export const generateNameId = ({ name, id }: { name: string; id: string }) => {
 export const getIdFromNameId = (nameId: string) => {
   const nameSplit = nameId.split('-i,')
   return nameSplit[nameSplit.length - 1]
+}
+
+export const getAvatarURL = (avatarName?: string) => {
+  return avatarName ? `https://api-ecom.duthanhduoc.com/images/${avatarName}` : '/src/assets/user.svg'
 }

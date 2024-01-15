@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { toast } from 'react-toastify'
@@ -41,7 +41,7 @@ export default function ChangePassword() {
         if (formError) {
           Object.keys(formError).forEach((key) => {
             setError(key as keyof FormData, {
-              message: formError[key as keyof FormData],
+              message: String(formError[key as keyof FormData]),
               type: 'Server'
             })
           })

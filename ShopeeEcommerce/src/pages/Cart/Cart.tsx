@@ -10,7 +10,7 @@ import { AppContext } from 'src/contexts/app.context'
 import { ExtendedPurchase } from 'src/types/purchase.types'
 import { formatCurrency } from 'src/utils/utils'
 import { produce } from 'immer'
-import { keyBy } from 'lodash'
+import keyBy from 'lodash/keyBy'
 import { toast } from 'react-toastify'
 
 export default function Cart() {
@@ -22,10 +22,6 @@ export default function Cart() {
 
   const choosenPurchaseIdFromLocation = (location.state as { purchaseId: string } | null)?.purchaseId
   console.log(choosenPurchaseIdFromLocation)
-
-  const handleBuyCountChange = (value: number) => {
-    setBuyCount(value)
-  }
 
   const { data: purchaseInCartData, refetch } = useQuery({
     queryKey: ['purchase', { status: purchaseStatus.inCart }],
@@ -226,7 +222,7 @@ export default function Cart() {
                                 value={purchase.buy_count}
                                 disabled={purchase.disabled}
                                 classNameWrapper='flex items-center'
-                                onType={(value) => handleTypeQuantity(index)}
+                                onType={() => handleTypeQuantity(index)}
                                 onFocusLeave={(value) =>
                                   handleQuantity(index, value, value >= 1 && value <= purchase.product.quantity)
                                 }

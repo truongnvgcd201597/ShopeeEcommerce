@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import httpStatusCode from 'src/constants/constant.httpStatusCode'
+import { ErrorResponseApi } from 'src/types/utils.types'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -8,6 +9,17 @@ export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
 
 export function isAxiosUnprocessableEntityError<FormError>(error: unknown): error is AxiosError<FormError> {
   return isAxiosError(error) && error.response?.status === httpStatusCode.UnprocessableEntity
+}
+
+export function isAxiosUnauthorizedError<FormError>(error: unknown): error is AxiosError<FormError> {
+  return isAxiosError(error) && error.response?.status === httpStatusCode.Unauthorized
+}
+
+export function isAxiosExpriredError<FormError>(error: unknown): error is AxiosError<FormError> {
+  return (
+    isAxiosUnauthorizedError<ErrorResponseApi<{ name: string; message: string }>>(error) &&
+    error.response?.data?.data?.name === 'EXPIRED_TOKEN'
+  )
 }
 
 export function formatCurrency(currency: number) {
@@ -31,7 +43,7 @@ const removeSpecialCharacter = (str: string) =>
   str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, '')
 
 export const generateNameId = ({ name, id }: { name: string; id: string }) => {
-  return removeSpecialCharacter(name).replace(/\s/g, '-').toLowerCase() + `-i,${id}`
+  return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i-${id}`
 }
 
 export const getIdFromNameId = (nameId: string) => {

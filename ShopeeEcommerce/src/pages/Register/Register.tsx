@@ -4,7 +4,7 @@ import Input from 'src/components/Input'
 import { schema, Schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from 'react-query'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.types'
 import { useContext } from 'react'
@@ -12,6 +12,7 @@ import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/components/Button/Button'
 import path from 'src/constants/path'
 import authApi from 'src/apis/auth.api'
+import { Helmet } from 'react-helmet-async'
 
 type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
 const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
@@ -36,7 +37,7 @@ export default function Register() {
   const onSubmit = handleSubmit((data) => {
     const registerData = omit(data, ['confirm_password'])
     registerAccountMutation.mutate(registerData, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         setIsAuthenticated(true)
         navigate(path.login)
       },
@@ -66,6 +67,10 @@ export default function Register() {
 
   return (
     <div className='bg-orange'>
+      <Helmet>
+        <title>Register</title>
+        <meta name='description' content='Register' />
+      </Helmet>
       <div className='container'>
         <div className='grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import DOMPurify from 'dompurify'
+import { sanitize } from 'dompurify'
 import { useNavigate, useParams } from 'react-router-dom'
 import productApi from 'src/apis/product.api'
 import ProductRating from 'src/components/ProductRating'
@@ -13,6 +13,7 @@ import purchaseApi from 'src/apis/purchase.api'
 import { purchaseStatus } from 'src/constants/purchases'
 import { toast } from 'react-toastify'
 import path from 'src/constants/path'
+import { useTranslation } from 'react-i18next'
 
 export default function ProductDetail() {
   const { nameId } = useParams()
@@ -20,6 +21,7 @@ export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState(1)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const { t } = useTranslation(['product'])
 
   const { data: productDetailData } = useQuery({
     queryKey: ['product', nameId],
@@ -215,7 +217,9 @@ export default function ProductDetail() {
                   value={buyCount}
                   max={product.quantity}
                 />
-                <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
+                <div className='ml-6 text-sm text-gray-500'>
+                  {product.quantity} {t('available')}
+                </div>
               </div>
               <div className='mt-8 flex items-center'>
                 <button
@@ -264,7 +268,7 @@ export default function ProductDetail() {
           <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
             <div
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(product.description)
+                __html: sanitize(product.description)
               }}
             />
           </div>

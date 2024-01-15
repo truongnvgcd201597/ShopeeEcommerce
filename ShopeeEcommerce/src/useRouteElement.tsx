@@ -1,20 +1,21 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import Login from './pages/Login'
-import Register from './pages/Register'
 import RegisterLayout from './layouts/RegisterLayout'
 import MainLayout from './layouts/MainLayout/MainLayout'
-import { useContext } from 'react'
+import { useContext, lazy, Suspense } from 'react'
 import { AppContext } from './contexts/app.context'
 import path from './constants/path'
-import ProductList from './pages/ProductList/ProductList'
-import ProductDetail from './pages/ProductDetail'
-import Cart from './pages/Cart'
 import CartLayout from './layouts/CartLayout'
 import UserLayout from './pages/User/layouts/UserLayout'
-import ChangePassword from './pages/User/pages/ChangePassword'
-import Profile from './pages/User/pages/Profile'
-import HistoryPurchase from './pages/User/pages/HistoryPurchase'
-import PageNotFound from './pages/PageNotFound'
+
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
+const ProductList = lazy(() => import('./pages/ProductList/ProductList'))
+const HistoryPurchase = lazy(() => import('./pages/User/pages/HistoryPurchase'))
+const Profile = lazy(() => import('./pages/User/pages/Profile'))
+const ProductDetail = lazy(() => import('./pages/ProductDetail'))
+const PageNotFound = lazy(() => import('./pages/PageNotFound'))
+const Cart = lazy(() => import('./pages/Cart'))
+const ChangePassword = lazy(() => import('./pages/User/pages/ChangePassword'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -32,7 +33,9 @@ export default function useRouteElement() {
       index: true,
       element: (
         <MainLayout>
-          <ProductList />
+          <Suspense>
+            <ProductList />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -50,15 +53,27 @@ export default function useRouteElement() {
           children: [
             {
               path: path.profile,
-              element: <Profile />
+              element: (
+                <Suspense>
+                  <Profile />
+                </Suspense>
+              )
             },
             {
               path: path.changePassword,
-              element: <ChangePassword />
+              element: (
+                <Suspense>
+                  <ChangePassword />
+                </Suspense>
+              )
             },
             {
               path: path.purchaseHistory,
-              element: <HistoryPurchase />
+              element: (
+                <Suspense>
+                  <HistoryPurchase />
+                </Suspense>
+              )
             }
           ]
         },
@@ -66,7 +81,9 @@ export default function useRouteElement() {
           path: path.cart,
           element: (
             <CartLayout>
-              <Cart />
+              <Suspense>
+                <Cart />
+              </Suspense>
             </CartLayout>
           )
         },
@@ -74,7 +91,9 @@ export default function useRouteElement() {
           path: path.productDetail,
           element: (
             <MainLayout>
-              <ProductDetail />
+              <Suspense>
+                <ProductDetail />
+              </Suspense>
             </MainLayout>
           )
         },
@@ -82,7 +101,9 @@ export default function useRouteElement() {
           path: '*',
           element: (
             <MainLayout>
-              <PageNotFound />
+              <Suspense>
+                <PageNotFound />
+              </Suspense>
             </MainLayout>
           )
         }
@@ -96,7 +117,9 @@ export default function useRouteElement() {
           path: path.login,
           element: (
             <RegisterLayout>
-              <Login />
+              <Suspense>
+                <Login />
+              </Suspense>
             </RegisterLayout>
           )
         },
@@ -104,7 +127,9 @@ export default function useRouteElement() {
           path: path.register,
           element: (
             <RegisterLayout>
-              <Register />
+              <Suspense>
+                <Register />
+              </Suspense>
             </RegisterLayout>
           )
         }

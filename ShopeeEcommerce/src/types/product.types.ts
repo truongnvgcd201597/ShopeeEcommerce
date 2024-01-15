@@ -19,6 +19,7 @@ export interface Product {
 }
 
 export interface ProductList {
+  pagination: any
   products: Product[]
   paginate: {
     page: number

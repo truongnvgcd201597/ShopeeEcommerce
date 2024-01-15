@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { sortBy, order as orderConstant } from 'src/constants/product'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { ProductListConfig } from 'src/types/product.types'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 interface Props {

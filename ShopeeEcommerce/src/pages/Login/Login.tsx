@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Omit, omit } from 'lodash'
+import omit from 'lodash/omit'
 import { useContext } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { Link, useNavigate } from 'react-router-dom'
@@ -16,7 +17,7 @@ type FormData = Pick<LoginSchema, 'email' | 'password'>
 const loginSchema = schema.pick(['email', 'password'])
 
 export default function Login() {
-  const { setProfile, setIsAuthenticated } = useContext(AppContext)
+  const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
 
   const {
@@ -35,7 +36,7 @@ export default function Login() {
   const onSubmit = handleSubmit((data) => {
     const loginData = omit(data, ['confirm_password'])
     loginAccountMutation.mutate(loginData, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         setIsAuthenticated(true)
         navigate('/') // navigate to the product list page
       },
@@ -65,6 +66,10 @@ export default function Login() {
 
   return (
     <div className='bg-orange'>
+      <Helmet>
+        <title>Login</title>
+        <meta name='description' content='Login' />
+      </Helmet>
       <div className='container'>
         <div className='grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>

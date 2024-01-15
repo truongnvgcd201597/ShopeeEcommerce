@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { useQuery } from 'react-query'
 import { Link, createSearchParams } from 'react-router-dom'
-import productApi from 'src/apis/product.api'
 import purchaseApi from 'src/apis/purchase.api'
 import path from 'src/constants/path'
 import { purchaseStatus } from 'src/constants/purchases'

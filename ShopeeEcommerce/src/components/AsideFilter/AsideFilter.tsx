@@ -8,9 +8,10 @@ import { Schema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NoUndefined } from 'src/types/utils.types'
 import RatingStars from 'src/components/RatingStars'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import InputVerTwo from '../InputVersusTwo'
+import { useTranslation } from 'react-i18next'
 
 interface AsideFilterProps {
   queryConfig: QueryConfig
@@ -22,6 +23,7 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
   const { category } = queryConfig
 
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const caterogiesSchema = schema.pick(['price_min', 'price_max'])
   const {
@@ -80,7 +82,7 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
             </g>
           </g>
         </svg>
-        All categories
+        {t('aside filter.All Categories')}
       </Link>
       <div className='bg-gray-300 h-[1px] my-4' />
       <ul>
@@ -129,7 +131,7 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
             />
           </g>
         </svg>
-        Search filter
+        {t('Search Filter')}
       </Link>
       <div className='bg-gray-300 h-[1px] my-4' />
       <div className='my-5'>

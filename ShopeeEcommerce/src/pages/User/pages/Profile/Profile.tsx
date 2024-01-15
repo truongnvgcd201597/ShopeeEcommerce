@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
 import userApi from 'src/apis/users.api'
@@ -13,7 +13,6 @@ import { AppContext } from 'src/contexts/app.context'
 import { setProfile } from 'src/utils/auth'
 import { getAvatarURL, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.types'
-import config from 'src/constants/config'
 import InputFile from 'src/components/InputFile'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>

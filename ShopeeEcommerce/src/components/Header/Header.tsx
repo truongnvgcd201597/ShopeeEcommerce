@@ -1,4 +1,4 @@
-import { Link, createSearchParams, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Pophover from '../Pophover'
 import { useQuery } from 'react-query'
 import { useContext } from 'react'
@@ -11,7 +11,7 @@ import NavHeader from '../NavHeader'
 import useSearchProduct from 'src/hooks/useSearchProduct'
 const MAX_PURCHASE_IN_CART = 5
 export default function Header() {
-  const { isAuthenticated, setIsAuthenticated, profile } = useContext(AppContext)
+  const { isAuthenticated } = useContext(AppContext)
 
   const { register, onSubmitSearch } = useSearchProduct()
 
